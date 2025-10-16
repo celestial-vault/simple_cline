@@ -36,16 +36,19 @@ process.env.GH_TOKEN = GITHUB_TOKEN
 
 console.log(`Starting AI-powered review for ${GITHUB_REPOSITORY}#${PR_NUMBER}`)
 
-// Configure Cline with Anthropic API key
+// Configure Cline with Anthropic API key and provider
 console.log("\n=== Configuring Cline ===")
 try {
-	execSync(`cline config set api-key=${ANTHROPIC_API_KEY}`, {
-		encoding: "utf8",
-		stdio: "inherit",
-	})
-	console.log("✓ API key configured")
+	execSync(
+		`cline config set api-key=${ANTHROPIC_API_KEY} act-mode-api-provider=anthropic plan-mode-api-provider=anthropic act-mode-api-model-id=claude-sonnet-4-5-20250929:1m plan-mode-api-model-id=claude-sonnet-4-5-20250929:1m`,
+		{
+			encoding: "utf8",
+			stdio: "inherit",
+		},
+	)
+	console.log("✓ Configured Anthropic provider with claude-sonnet-4-5-20250929:1m")
 } catch (error) {
-	console.error("Failed to configure API key:", error.message)
+	console.error("Failed to configure Cline:", error.message)
 	process.exit(1)
 }
 
