@@ -123,27 +123,18 @@ console.log("\n=== Starting PR Review ===\n")
 try {
 	// Start task and follow to completion
 	// The & spawns the task in background, sleep gives it time to start, then we follow it
-	const output = execSync(
+	execSync(
 		`cline task new "${REVIEW_PROMPT.replace(/"/g, '\\"')}" --yolo --mode act & sleep 2 && cline task view --follow-complete --output-format plain`,
 		{
-			encoding: "utf8",
-			stdio: "pipe",
+			stdio: "inherit", // Stream output in real-time
 			env: process.env,
 			cwd: process.cwd(),
 		},
 	)
 
-	console.log(output)
 	console.log("\n✓ PR Review completed successfully")
 } catch (error) {
 	console.error("\n❌ PR Review failed")
-	if (error.stdout) {
-		console.log("\nOutput:")
-		console.log(error.stdout)
-	}
-	if (error.stderr) {
-		console.error("\nErrors:")
-		console.error(error.stderr)
-	}
+	console.error(error.message)
 	process.exit(1)
 }
