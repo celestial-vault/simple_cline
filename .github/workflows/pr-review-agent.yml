@@ -27,8 +27,8 @@ jobs:
       - name: Install dependencies
         run: |
           npm ci
-          # Install Claude Agent SDK
-          npm install @anthropic-ai/claude-agent-sdk
+          # Install Cline CLI globally
+          npm install -g cline@nightly
 
       - name: Run PR Review Agent
         env:
